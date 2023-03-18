@@ -6,7 +6,7 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:30:16 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/18 17:14:12 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/18 18:11:20 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int	main(void)
 	pid_t	PID;
 	struct sigaction sa;
 
-	sa.sa_handler = &signal_handler;
+	sa.sa_handler = signal_handler;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
+	sigaction(SIGINT, &sa, NULL);
 	PID = getpid();
 	printf("Server PID:%i\n", PID);
-	while(1)
-		continue ;
+	pause();
 }
