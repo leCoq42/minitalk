@@ -6,33 +6,40 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:36:21 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/18 17:16:55 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/19 16:17:05 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"mini_talk.h"
 
-// void	signal_handler(int sig)
-// {
-// 	if (sig == SIGUSR1)
-// 	{
+void	send_signal(pid_t PID, char c)
+{
+	int	b;
 
-// 	}
-// 	else if (sig == SIGUSR2)
-// 	{
-
-// 	}
-// }
-
+	ft_printf("%c\n", c);
+	b = 0;
+	while (b < 8)
+	{
+		if (c & 1)
+			kill(PID, SIGUSR2);
+		else
+			kill(PID, SIGUSR1);
+		c >>= 1;
+		usleep(1000);
+		b++;
+	}
+}
 
 int	main(int argc, char *argv[])
 {
-	pid_t				PID;
-	// struct sigaction	sa;
+	char	*str;
 
-	// sa.sa_handler = &signal_handler;
-	if (argc < 2)
-		exit(1);
-	PID = ft_atoi(argv[1]);
-	kill(PID, SIGUSR2);
+	if (argc < 3)
+		return (1);
+	str = argv[2];
+	while (*str)
+	{
+		send_signal(ft_atoi(argv[1]), *str);
+		str++;
+	}
 }
