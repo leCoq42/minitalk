@@ -6,7 +6,7 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:24:11 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/18 15:22:26 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/20 12:24:28 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@
 
 // TO be removde
 # include	<stdio.h>
+
+long long	mt_atoi_base(const char *str, int base);
 
 #endif

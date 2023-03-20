@@ -6,21 +6,33 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:30:16 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/19 16:16:20 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/20 17:23:52 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"mini_talk.h"
 
-void	signal_handler(int sig)
+static void	signal_handler(int sig, siginfo_t *info, ucontext_t *uap)
 {
-	if (sig == SIGUSR1)
+	static int				bit = 0;
+	static unsigned char	c = 0x00;
+
+	(void)uap;
+	if (bit < 8)
 	{
-		write(1, "0\n", 2);
+		if (sig == SIGUSR2)
+			c |= 0x01 << bit;
+		bit++;
+		kill(info->si_pid, SIGUSR1);
 	}
-	else if (sig == SIGUSR2)
+	if (bit == 8)
 	{
-		write(1, "1\n", 2);
+		if (c == 0x00)
+			kill(info->si_pid, SIGUSR2);
+		else
+			write(1, &c, 1);
+		bit = 0;
+		c = 0x00;
 	}
 }
 
@@ -32,11 +44,11 @@ int	main(void)
 	write(1, "Server PID: ", 12);
 	write(1, pid, ft_strlen(pid));
 	write(1, "\n", 1);
-	sa.sa_handler = signal_handler;
+	sa.sa_sigaction = (void *)signal_handler;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
+	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
-		continue ;
+		pause();
 }

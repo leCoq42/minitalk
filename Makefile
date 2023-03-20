@@ -6,7 +6,7 @@
 #    By: mhaan <mhaan@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/03/17 11:52:43 by mhaan         #+#    #+#                  #
-#    Updated: 2023/03/19 13:36:39 by mhaan         ########   odam.nl          #
+#    Updated: 2023/03/20 12:24:10 by mhaan         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ INC_FILES	:=	./includes/mini_talk.h
 SRC_DIR		:=	./src
 OBJ_DIR		:=	./obj
 
-SERVER_C	:=	mt_server.c
-CLIENT_C	:=	mt_client.c
+SERVER_C	:=	mt_server.c mt_utils.c
+CLIENT_C	:=	mt_client.c mt_utils.c
 
 SERVER_OBJ	:=	$(addprefix $(OBJ_DIR)/,$(SERVER_C:.c=.o))
 CLIENT_OBJ	:=	$(addprefix $(OBJ_DIR)/,$(CLIENT_C:.c=.o))

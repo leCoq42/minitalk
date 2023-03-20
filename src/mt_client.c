@@ -6,40 +6,57 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:36:21 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/19 16:17:05 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/20 17:08:55 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"mini_talk.h"
 
-void	send_signal(pid_t PID, char c)
-{
-	int	b;
+int	g_rdy = 1;
 
-	ft_printf("%c\n", c);
+static void	send_signal(pid_t PID, char c)
+{
+	int			b;
+	const int	max_bits = 8;
+
 	b = 0;
-	while (b < 8)
+	while (b < (max_bits))
 	{
-		if (c & 1)
+		while (!g_rdy)
+			pause();
+		if (c >> b & 1)
 			kill(PID, SIGUSR2);
 		else
 			kill(PID, SIGUSR1);
-		c >>= 1;
-		usleep(1000);
+		g_rdy = 0;
 		b++;
 	}
 }
 
+static void	signal_handler(int sig)
+{
+	if (sig == SIGUSR1)
+		g_rdy = 1;
+	else if (sig == SIGUSR2)
+		write(1, "Server received message!\n", 25);
+}
+
 int	main(int argc, char *argv[])
 {
-	char	*str;
+	struct sigaction	sa;
 
-	if (argc < 3)
-		return (1);
-	str = argv[2];
-	while (*str)
+	sa.sa_handler = signal_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_SIGINFO;
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	if (argc != 3)
+		exit (EXIT_FAILURE);
+	while (*argv[2])
 	{
-		send_signal(ft_atoi(argv[1]), *str);
-		str++;
+		send_signal(ft_atoi(argv[1]), *argv[2]);
+		argv[2]++;
 	}
+	send_signal(ft_atoi(argv[1]), *argv[2]);
+	pause();
 }
