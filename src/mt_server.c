@@ -6,7 +6,7 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:30:16 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/20 17:23:52 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/23 15:17:51 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,24 @@ static void	signal_handler(int sig, siginfo_t *info, ucontext_t *uap)
 		if (sig == SIGUSR2)
 			c |= 0x01 << bit;
 		bit++;
-		kill(info->si_pid, SIGUSR1);
 	}
-	if (bit == 8)
+	if (bit >= 8)
 	{
 		if (c == 0x00)
+		{
+			ft_putchar_fd('\n', 1);
 			kill(info->si_pid, SIGUSR2);
+		}
 		else
-			write(1, &c, 1);
+		{
+			ft_putchar_fd(c, 1);
+			kill(info->si_pid, SIGUSR1);
+		}
 		bit = 0;
 		c = 0x00;
 	}
+	else
+		kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -41,14 +48,14 @@ int	main(void)
 	struct sigaction	sa;
 	const char			*pid = ft_itoa(getpid());
 
-	write(1, "Server PID: ", 12);
-	write(1, pid, ft_strlen(pid));
-	write(1, "\n", 1);
+	ft_putstr_fd("Server PID: ", 1);
+	ft_putstr_fd((char *)pid, 1);
+	ft_putstr_fd("\n", 1);
 	sa.sa_sigaction = (void *)signal_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
-		pause();
+		;
 }
