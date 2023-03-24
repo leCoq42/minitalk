@@ -6,7 +6,7 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:36:21 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/23 15:30:14 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/24 17:51:30 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	g_rdy = 1;
 
-static void	send_signal(pid_t PID, char *str);
+static void	send_message(pid_t PID, char *str);
 static void	end_message(pid_t PID, const int max_int);
 static void	signal_handler(int sig);
 
-static void	send_signal(pid_t PID, char *str)
+static void	send_message(pid_t PID, char *str)
 {
 	int				bit;
 	unsigned int	i;
@@ -73,17 +73,13 @@ static void	signal_handler(int sig)
 
 int	main(int argc, char *argv[])
 {
-	struct sigaction	sa;
 	const pid_t			pid = ft_atoi(argv[1]);
 
-	sa.sa_handler = signal_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	signal(SIGUSR1, signal_handler);
+	signal(SIGUSR2, signal_handler);
 	if (argc != 3)
 	{
-		ft_putstr_fd("Error. Usage: ./client [server_PID] [string]\n", 2);
+		ft_putstr_fd("Error. Usage: ./client <server_PID> <string to send>\n", 2);
 		exit (EXIT_FAILURE);
 	}
 	if (kill(pid, 0) == -1)
@@ -91,7 +87,7 @@ int	main(int argc, char *argv[])
 		ft_putstr_fd("ERROR: invalid PID!\n", 2);
 		exit (EXIT_FAILURE);
 	}
-	send_signal(ft_atoi(argv[1]), argv[2]);
+	send_message(ft_atoi(argv[1]), argv[2]);
 	while (1)
 		pause();
 }

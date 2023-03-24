@@ -6,7 +6,7 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:30:16 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/23 15:17:51 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/24 18:07:21 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,31 @@ static void	signal_handler(int sig, siginfo_t *info, ucontext_t *uap)
 {
 	static int				bit = 0;
 	static unsigned char	c = 0x00;
+	unsigned int			end;
 
 	(void)uap;
-	if (bit < 8)
-	{
-		if (sig == SIGUSR2)
-			c |= 0x01 << bit;
-		bit++;
-	}
-	if (bit >= 8)
+	end = 0;
+	if (sig == SIGUSR2)
+		c |= 1 << bit;
+	else if (sig == SIGUSR1)
+		c |= 0 << bit;
+	bit++;
+	if (bit == 8)
 	{
 		if (c == 0x00)
 		{
 			ft_putchar_fd('\n', 1);
-			kill(info->si_pid, SIGUSR2);
+			end = 1;
 		}
 		else
-		{
 			ft_putchar_fd(c, 1);
-			kill(info->si_pid, SIGUSR1);
-		}
 		bit = 0;
 		c = 0x00;
 	}
-	else
+	if (!end)
 		kill(info->si_pid, SIGUSR1);
+	else
+		kill(info->si_pid, SIGUSR2);
 }
 
 int	main(void)
@@ -57,5 +57,6 @@ int	main(void)
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
-		;
+		pause();
+	return (0);
 }
