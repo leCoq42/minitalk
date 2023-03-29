@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   mt_utils.c                                         :+:    :+:            */
+/*   mini_talk_bonus.h                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/20 11:14:33 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/29 14:46:37 by mhaan         ########   odam.nl         */
+/*   Created: 2023/03/17 11:24:11 by mhaan         #+#    #+#                 */
+/*   Updated: 2023/03/29 17:06:33 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mini_talk.h"
+#ifndef MINI_TALK_BONUS_H
+# define MINI_TALK_BONUS_H
 
-void	mt_send_signal(pid_t PID, int sig)
-{
-	if (kill(PID, sig) == -1)
-	{
-		ft_putstr_fd("Error sending signal.\n", STDERR_FILENO);
-		exit(EXIT_FAILURE);
-	}
-}
+// Includes:
+# include	"libft.h"
+# include	"ft_printf.h"
+# include	"get_next_line_bonus.h"
+# include	<limits.h>
+# include	<stdarg.h>
+# include	<stdlib.h>
+# include	<unistd.h>
+# include	<signal.h>
+
+// TO be removde
+# include	<stdio.h>
+
+void	mt_send_signal(pid_t PID, int sig);
+
+#endif

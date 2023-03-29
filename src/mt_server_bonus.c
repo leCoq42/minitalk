@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   mt_server.c                                        :+:    :+:            */
+/*   mt_server_bonus.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/17 11:30:16 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/29 16:50:01 by mhaan         ########   odam.nl         */
+/*   Created: 2023/03/29 16:53:44 by mhaan         #+#    #+#                 */
+/*   Updated: 2023/03/29 17:07:14 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mini_talk.h"
+#include	"mini_talk_bonus.h"
 
 static void	signal_handler(int sig, siginfo_t *info, ucontext_t *uap);
 static void	write_char(unsigned char c);

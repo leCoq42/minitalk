@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   mt_utils.c                                         :+:    :+:            */
+/*   mt_utils_bonus.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/03/20 11:14:33 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/29 14:46:37 by mhaan         ########   odam.nl         */
+/*   Created: 2023/03/29 16:53:31 by mhaan         #+#    #+#                 */
+/*   Updated: 2023/03/29 17:07:20 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"mini_talk.h"
+#include	"mini_talk_bonus.h"
 
 void	mt_send_signal(pid_t PID, int sig)
 {
