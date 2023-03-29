@@ -6,7 +6,7 @@
 /*   By: mhaan <mhaan@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 11:24:11 by mhaan         #+#    #+#                 */
-/*   Updated: 2023/03/29 17:06:33 by mhaan         ########   odam.nl         */
+/*   Updated: 2023/03/29 17:11:06 by mhaan         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@
 # include	<unistd.h>
 # include	<signal.h>
 
-// TO be removde
-# include	<stdio.h>
-
+// Functions prototypes:
 void	mt_send_signal(pid_t PID, int sig);
 
 #endif
